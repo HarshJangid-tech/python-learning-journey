@@ -1,0 +1,65 @@
+import tkinter as tk
+
+# Window
+root = tk.Tk()
+root.title("Calculator")
+root.geometry("350x500")
+
+# Display
+display = tk.Entry(root, font=("Arial", 24), justify="right")
+display.pack(fill="both", padx=10, pady=10, ipady=10)
+
+
+def click(value):
+    display.insert(tk.END, value)
+
+
+def clear():
+    display.delete(0, tk.END)
+
+
+def calculate():
+    try:
+        result = eval(display.get())
+        display.delete(0, tk.END)
+        display.insert(0, result)
+    except:
+        display.delete(0, tk.END)
+        display.insert(0, "Error")
+
+
+# Buttons
+buttons = [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["0", ".", "=", "+"],
+]
+
+for row in buttons:
+    frame = tk.Frame(root)
+    frame.pack(expand=True, fill="both")
+
+    for button in row:
+        if button == "=":
+            command = calculate
+        else:
+            command = lambda x=button: click(x)
+
+        tk.Button(
+            frame,
+            text=button,
+            font=("Arial", 18),
+            command=command
+        ).pack(side="left", expand=True, fill="both")
+
+
+# Clear button
+tk.Button(
+    root,
+    text="CLEAR",
+    font=("Arial", 18),
+    command=clear
+).pack(fill="both", padx=5, pady=5)
+
+root.mainloop()
